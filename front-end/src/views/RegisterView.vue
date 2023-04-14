@@ -8,8 +8,19 @@ import AuthenticatedLayout from '../components/AuthenticatedLayout.vue'
     <div class="hero-content text-center">
       <div class="max-w-md">
         <div class="card bg-gray-900 p-5 w-96">
-          <p class="text-5xl">Login</p>
-          <form @submit="login">
+          <p class="text-5xl">Register</p>
+          <form @submit="register">
+            <div class="form-control w-full max-w-xs mb-5">
+              <label class="label">
+                <span class="label-text">name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="name"
+                v-model="data.name"
+                class="input input-bordered w-full max-w-xs"
+              />
+            </div>
             <div class="form-control w-full max-w-xs mb-5">
               <label class="label">
                 <span class="label-text">Username</span>
@@ -33,8 +44,7 @@ import AuthenticatedLayout from '../components/AuthenticatedLayout.vue'
               />
             </div>
             <div class="p-5">
-              <RouterLink to="/" class="btn btn-primary mr-3">login</RouterLink>
-              <RouterLink to="/register" class="btn btn-primary mr-3">register</RouterLink>
+              <RouterLink to="/" class="btn btn-primary mr-3">kembali</RouterLink>
             </div>
           </form>
         </div>
@@ -50,24 +60,21 @@ import axios from 'axios'
 // Vue.use(VueRouter)
 
 export default {
-  name: 'login',
+  name: 'register',
   data() {
     return {
       data: {
+        name: '',
         username: '',
         password: ''
       }
     }
   },
   methods: {
-    async login(e) {
+    async register(e) {
       e.preventDefault()
-      const response = await AuthenticatedService.login(this.data)
-
-      await localStorage.setItem('token', response.data.access_token)
-      setTimeout(() => {
-        this.$router.push('/home')
-      }, 1000)
+      const response = await AuthenticatedService.register(this.data)
+      this.$router.push('/')
     }
   },
   mounted() {
