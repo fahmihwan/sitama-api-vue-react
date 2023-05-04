@@ -54,6 +54,8 @@ const Create = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log(response);
+
             navigate("/home");
         } catch (error) {
             console.log(error);
@@ -67,8 +69,8 @@ const Create = () => {
                     back
                 </Link>
                 <div className="overflow-x-auto">
-                    <div className="w-full flex">
-                        <div className="w-1/2 card bg-gray-900 p-5">
+                    <div className="w-full md:flex">
+                        <div className="w-full md:w-1/2  card bg-gray-900 p-5">
                             <form encType="multipart/form-data" onSubmit={handleSubmit}>
                                 <div className="w-full flex">
                                     <div className="w-1/2 p-5">
@@ -90,10 +92,9 @@ const Create = () => {
                                             </label>
                                             <input
                                                 type="file"
-                                                // onChange={(e) => setFile(e.target.value)}
                                                 onChange={(e) => {
                                                     setFile(e.target.files[0]);
-                                                    setPreviewImg(URL.createObjectURL(event.target.files[0]));
+                                                    setPreviewImg(URL.createObjectURL(e.target.files[0]));
                                                 }}
                                                 className="file-input file-input-bordered file-input-primary w-full max-w-xs"
                                             />
@@ -188,7 +189,7 @@ const Create = () => {
                                 <button className="btn btn-primary">Submit</button>
                             </form>
                         </div>
-                        <div className="w-1/2 ">
+                        <div className="w-full md:w-1/2 ">
                             <div className="ml-10">
                                 <img src={previewImg} alt="" />
                             </div>
