@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrudController;
-use App\Http\Controllers\TesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,9 +34,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/list-crud/{id}', [CrudController::class, 'show']);
     Route::post('/list-crud', [CrudController::class, 'store']);
     // Route::patch('/list-crud', [CrudController::class, 'update']);
-    Route::patch('/list-crud', [CrudController::class, 'update']);
+    Route::patch('/list-crud/{id}', [CrudController::class, 'update']);
     Route::delete('/list-crud/{id}', [CrudController::class, 'destroy']);
 });
-
-
-// Route::resource('/tes', TesController::class);

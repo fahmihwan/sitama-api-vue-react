@@ -1,0 +1,50 @@
+{
+  "hash": "40b5f271",
+  "browserHash": "a73b95a6",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "859956e1",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "bceda866",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "75ea9f16",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "bd2a1465",
+      "needsInterop": false
+    },
+    "@ckeditor/ckeditor5-react": {
+      "src": "../../node_modules/@ckeditor/ckeditor5-react/dist/index.js",
+      "file": "@ckeditor_ckeditor5-react.js",
+      "fileHash": "5eabcf04",
+      "needsInterop": true
+    },
+    "@ckeditor/ckeditor5-build-classic": {
+      "src": "../../node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js",
+      "file": "@ckeditor_ckeditor5-build-classic.js",
+      "fileHash": "344a6aa9",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-ST3U5LCA": {
+      "file": "chunk-ST3U5LCA.js"
+    },
+    "chunk-DFKQJ226": {
+      "file": "chunk-DFKQJ226.js"
+    }
+  }
+}

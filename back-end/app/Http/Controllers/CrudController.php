@@ -43,7 +43,7 @@ class CrudController extends Controller
     public function store(Request $request)
     {
 
-        // return response()->json($request->all(), 200);
+
         $validated =  Validator::make($request->all(), [
             "title" => 'required',
             "description" => 'required',
@@ -103,11 +103,10 @@ class CrudController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
 
-        $validated =  Validator::make($request->all(), [
-            "id" => 'required',
+        $validator =  Validator::make($request->all(), [
             "title" => 'required',
             "description" => 'required',
             "department" => 'required',
@@ -115,30 +114,18 @@ class CrudController extends Controller
             "cc" => 'required',
         ])->validate();
 
-        // return response()->json($validated, 200);
-
-
-        // if ($validated->fails()) {
-        //     return Response::send(500, $validated->errors());
-        // }
-
-        // if ($request->file('attachment')) {
-        //     Storage::disk('public')->delete($request->file('attachment'));
-        //     $validatedData['attachment'] = $request->file('attachment')->store('files');
-        // }
 
         try {
             $check = Crud::where('id', $request->id)->first();
 
-            if ($request->file('attachment')) {
-                Storage::delete($check->attachemnt);
-                $validated['attachment'] = $request->file('attachment')->store('files');
-            }
             if ($check) {
-                $updateData = Crud::where('id', $request->id)->update($request->all());
+                if ($request->file('attachment')) {
+                    $validator['attachment'] = $request->file('attachment')->store('files', 'public');
+                    Storage::disk('public')->delete($check->attachment);
+                }
+                $updateData = Crud::where('id', $request->id)->update($validator);
                 return Response::send(200, ['message' => 'Data Updated Success', 'data' => $updateData]);
             }
-            return Response::send(200, ["message" => 'Data Not found', "data" => []]);
         } catch (Exception $error) {
             return Response::send(500, $error->getMessage());
         }

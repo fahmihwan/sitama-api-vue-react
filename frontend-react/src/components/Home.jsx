@@ -65,8 +65,12 @@ const Home = () => {
                                     <td>{i + 1}</td>
                                     <td>{d.title}</td>
                                     <td>
-                                        {/* <img src={`http://127.0.0.1:8000/api/${d.attachment}`} alt="" /> */}
-                                        <img src={`http://127.0.0.1:8000/storage/${d.attachment}`} alt="" />
+                                        <div className="w-32">
+                                            <img
+                                                src={`http://127.0.0.1:8000/storage/${d.attachment}`}
+                                                alt=""
+                                            />
+                                        </div>
                                     </td>
                                     <td>
                                         <div className="overflow-hidden text-ellipsis w-[200px]">

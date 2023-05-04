@@ -59,14 +59,6 @@ const Edit = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // let formData = {
-        //     id: id,
-        //     title: title,
-        //     description: description,
-        //     department: department,
-        //     assign: assign,
-        //     cc: cc,
-        // };
 
         const formData = new FormData();
         formData.append("title", title);
@@ -75,9 +67,9 @@ const Edit = () => {
         formData.append("department", department);
         formData.append("assign", assign);
         formData.append("cc", cc);
-
+        formData.append("_method", "PATCH");
         try {
-            const response = await axios.patch(`http://127.0.0.1:8000/api/list-crud`, formData, {
+            const response = await axios.post(`http://127.0.0.1:8000/api/list-crud/${id}`, formData, {
                 headers: {
                     // "Content-type": "application/json",
                     "Content-type": "multipart/form-data",
