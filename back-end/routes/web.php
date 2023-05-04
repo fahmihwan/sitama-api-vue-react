@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Crud;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $datas = Crud::all();
+    return view('welcome', [
+        'datas' => $datas
+    ]);
 });

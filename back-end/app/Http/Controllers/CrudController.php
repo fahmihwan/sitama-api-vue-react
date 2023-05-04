@@ -42,6 +42,7 @@ class CrudController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated =  Validator::make($request->all(), [
             "title" => 'required',
             "description" => 'required',
@@ -52,9 +53,10 @@ class CrudController extends Controller
 
 
         if ($request->file('attachment')) {
-            $validated['attachment'] = $request->file('attachment')->store('files');
+            $validated['attachment'] = $request->file('attachment')->store('files', 'public');
+        } else {
+            return Response::send(500, 'image is required');
         }
-
 
         try {
             $storeData = Crud::create($validated);
@@ -69,7 +71,7 @@ class CrudController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource.i
      */
     public function show($id)
     {
@@ -103,7 +105,6 @@ class CrudController extends Controller
     public function update(Request $request)
     {
 
-
         $validator =  Validator::make($request->all(), [
             "title" => 'required',
             "description" => 'required',
@@ -112,11 +113,9 @@ class CrudController extends Controller
             "cc" => 'required',
         ]);
 
-
         if ($validator->fails()) {
             return Response::send(500, $validator->errors());
         }
-
 
         try {
             $check = Crud::where('id', $request->id)->first();
@@ -127,17 +126,9 @@ class CrudController extends Controller
             }
             if ($check) {
                 $updateData = Crud::where('id', $request->id)->update($request->all());
-                $data = [
-                    'message' => 'Data Updated Success',
-                    'data' => $updateData
-                ];
-                return Response::send(200, $data);
+                return Response::send(200, ['message' => 'Data Updated Success', 'data' => $updateData]);
             }
-            $data = [
-                "message" => 'Data Not found',
-                "data" => []
-            ];
-            return Response::send(200, $data);
+            return Response::send(200, ["message" => 'Data Not found', "data" => []]);
         } catch (Exception $error) {
             return Response::send(500, $error->getMessage());
         }
@@ -148,10 +139,10 @@ class CrudController extends Controller
      */
     public function destroy($id)
     {
-
+        $check = Crud::find($id);
         try {
-            $check = Crud::find($id);
             if ($check) {
+                Storage::disk('public')->delete($check->attachment);
                 $check->delete();
                 $data = [
                     "message" => "Data Deleted Success",
