@@ -6,7 +6,7 @@ use App\Models\Crud;
 use Illuminate\Http\Request;
 use App\Helpers\Response;
 use Exception;
-use Illuminate\Auth\Events\Validated;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -43,6 +43,7 @@ class CrudController extends Controller
     public function store(Request $request)
     {
 
+        // return response()->json($request->all(), 200);
         $validated =  Validator::make($request->all(), [
             "title" => 'required',
             "description" => 'required',
@@ -105,17 +106,26 @@ class CrudController extends Controller
     public function update(Request $request)
     {
 
-        $validator =  Validator::make($request->all(), [
+        $validated =  Validator::make($request->all(), [
+            "id" => 'required',
             "title" => 'required',
             "description" => 'required',
             "department" => 'required',
             "assign" => 'required',
             "cc" => 'required',
-        ]);
+        ])->validate();
 
-        if ($validator->fails()) {
-            return Response::send(500, $validator->errors());
-        }
+        // return response()->json($validated, 200);
+
+
+        // if ($validated->fails()) {
+        //     return Response::send(500, $validated->errors());
+        // }
+
+        // if ($request->file('attachment')) {
+        //     Storage::disk('public')->delete($request->file('attachment'));
+        //     $validatedData['attachment'] = $request->file('attachment')->store('files');
+        // }
 
         try {
             $check = Crud::where('id', $request->id)->first();
