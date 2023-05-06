@@ -28,7 +28,6 @@ const Create = () => {
         }
     }, [department]);
 
-    // console.log(previewImg);
     useEffect(() => {
         let filter = optAsssign.filter((d) => d !== assign);
         setOptCc(filter);

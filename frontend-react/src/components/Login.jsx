@@ -25,7 +25,7 @@ const Login = () => {
                 <div className="hero-content text-center">
                     <div className="max-w-md">
                         <div className="card bg-gray-900 p-5 w-96">
-                            <p className="text-5xl">Login</p>
+                            <p className="text-5xl">Login React</p>
 
                             <form onSubmit={handleSubmit}>
                                 <div className="form-control w-full max-w-xs mb-5">

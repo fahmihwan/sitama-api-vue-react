@@ -4,19 +4,20 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthenticatedLayouts = ({ children }) => {
     const navigate = useNavigate();
-    let token = localStorage.getItem("token");
     const handleLogout = async () => {
+        let token = localStorage.getItem("token");
         try {
             const response = await axios.post(
                 "http://127.0.0.1:8000/api/logout",
                 {},
                 {
                     headers: {
-                        "Content-type": "application/json",
+                        // "Content-type": "application/json",
                         Authorization: `Bearer ${token}`,
                     },
                 }
             );
+            console.log(response);
             localStorage.removeItem("token");
             navigate("/");
         } catch (error) {
@@ -47,12 +48,13 @@ export const AuthenticatedLayouts = ({ children }) => {
                             </svg>
                         </label>
                     </div>
-                    <div className="flex-1 px-2 mx-2">Navbar Title</div>
+                    <div className="flex-1 px-2 mx-2">CRUD REACT</div>
                     <div className="flex-none hidden lg:block">
                         <ul className="menu menu-horizontal">
                             {/* Navbar menu content here */}
                             <li>
-                                <a>logout</a>
+                                {/* <a>logout</a> */}
+                                <button onClick={handleLogout}>Logout</button>
                             </li>
                         </ul>
                     </div>

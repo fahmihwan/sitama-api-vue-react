@@ -1,14 +1,14 @@
-<script setup>
+<!-- <script setup>
 import { RouterLink, RouterView, routerKey, useRouter } from 'vue-router'
 import AuthenticatedLayout from '../components/AuthenticatedLayout.vue'
-</script>
+</script> -->
 
 <template>
   <div class="hero min-h-screen bg-base-200">
     <div class="hero-content text-center">
       <div class="max-w-md">
         <div class="card bg-gray-900 p-5 w-96">
-          <p class="text-5xl">Login</p>
+          <p class="text-5xl mb-5">Login VueJs</p>
           <form @submit="login">
             <div class="form-control w-full max-w-xs mb-5">
               <label class="label">
@@ -33,8 +33,8 @@ import AuthenticatedLayout from '../components/AuthenticatedLayout.vue'
               />
             </div>
             <div class="p-5">
-              <RouterLink to="/" class="btn btn-primary mr-3">login</RouterLink>
-              <RouterLink to="/register" class="btn btn-primary mr-3">register</RouterLink>
+              <button class="btn btn-primary mr-3">login</button>
+              <!-- <RouterLink to="/register" class="btn btn-primary mr-3">register</RouterLink> -->
             </div>
           </form>
         </div>
@@ -62,12 +62,20 @@ export default {
   methods: {
     async login(e) {
       e.preventDefault()
-      const response = await AuthenticatedService.login(this.data)
 
-      await localStorage.setItem('token', response.data.access_token)
-      setTimeout(() => {
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/login', {
+          username: this?.data?.username,
+          password: this?.data?.password
+        })
+        localStorage.setItem('token', response.data.access_token)
+
         this.$router.push('/home')
-      }, 1000)
+      } catch (error) {
+        console.error(error)
+      }
+
+      // await localStorage.setItem('token', response.data.access_token)
     }
   },
   mounted() {

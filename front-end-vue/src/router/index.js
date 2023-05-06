@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import AddView from '../views/AddView.vue'
+import EditView from '../views/EditView.vue'
 import RegisterView from '../views/RegisterView.vue'
 
 const router = createRouter({
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/add-data',
       name: 'add-data',
       component: AddView
+    },
+    {
+      path: '/edit-data/:id',
+      name: 'edit-data',
+      component: EditView
     },
     {
       path: '/register',

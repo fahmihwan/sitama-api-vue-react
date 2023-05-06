@@ -27,6 +27,12 @@ import AuthenticatedLayout from '../components/AuthenticatedLayout.vue'
                   <label class="label">
                     <span class="label-text">description</span>
                   </label>
+                  <!-- <input
+                    type="text"
+                    v-model="data.description"
+                    placeholder="description"
+                    class="input input-bordered w-full max-w-xs"
+                  /> -->
                   <ckeditor
                     :editor="editor"
                     v-model="data.description"
@@ -68,7 +74,14 @@ import AuthenticatedLayout from '../components/AuthenticatedLayout.vue'
                     v-model="data.assign"
                     class="select select-bordered"
                   >
-                    <option v-for="(name, id) in assignOption" :value="name">{{ name }}</option>
+                    <option
+                      v-for="(name, id) in assignOption"
+                      :value="name"
+                      :key="id"
+                      :selected="name == data.assign"
+                    >
+                      {{ name }}
+                    </option>
                   </select>
                 </div>
                 <div class="form-control w-full max-w-xs mb-5">
@@ -76,10 +89,17 @@ import AuthenticatedLayout from '../components/AuthenticatedLayout.vue'
                     <span class="label-text">cc</span>
                   </label>
                   <select v-model="data.cc" class="select select-bordered">
-                    <option v-for="(name, id) in ccOption" :value="name">{{ name }}</option>
+                    <option
+                      v-for="(name, id) in ccOption"
+                      :key="id"
+                      :value="name"
+                      :selected="name == data.cc"
+                    >
+                      {{ name }}
+                    </option>
                   </select>
                 </div>
-                <button class="btn btn-primary">Submit</button>
+                <button class="btn btn-primary">Update</button>
               </form>
             </div>
           </div>
@@ -95,9 +115,8 @@ import AuthenticatedLayout from '../components/AuthenticatedLayout.vue'
 import CrudDataService from '../services/CrudDataService'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import axios from 'axios'
-
 export default {
-  name: 'add-data',
+  name: 'edit-data',
   data() {
     return {
       editor: ClassicEditor,
@@ -123,7 +142,6 @@ export default {
       this.data.attachment = files[0]
       this.previewImg = URL.createObjectURL(files[0])
     },
-
     changeDepartment(e) {
       if (e.target.value == 'Information Technology') {
         this.assignOption = ['rudi', 'joko', 'irwan']
@@ -138,6 +156,7 @@ export default {
     async handleSubmit(e) {
       e.preventDefault()
       let token = localStorage.getItem('token')
+      let id = this.$route.params.id
 
       const formData = new FormData()
       formData.append('title', this.data.title)
@@ -146,12 +165,13 @@ export default {
       formData.append('department', this.data.department)
       formData.append('assign', this.data.assign)
       formData.append('cc', this.data.cc)
+      formData.append('_method', 'PATCH')
 
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/list-crud', formData, {
+        const response = await axios.post(`http://127.0.0.1:8000/api/list-crud/${id}`, formData, {
           headers: {
             'Content-type': 'multipart/form-data',
-            Authorization: `Bearer ${token} `
+            Authorization: `Bearer ${token}`
           }
         })
         console.log(response)
@@ -159,7 +179,36 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    async getDetail(id) {
+      const token = localStorage.getItem('token')
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/list-crud/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+
+        this.data.title = response.data.data.title
+        this.data.description = response.data.data.description
+        this.data.attachment = response.data.data.attachment
+        this.data.department = response.data.data.department
+        this.data.assign = response.data.data.assign
+        this.data.cc = response.data.data.cc
+        this.previewImg = 'http://127.0.0.1:8000/storage/' + response.data.data.attachment
+
+        if (response.data.data.department == 'Information Technology') {
+          this.assignOption = ['rudi', 'joko', 'irwan']
+        }
+        if (response.data.data.department == 'Sales marketing') {
+          this.assignOption = ['Lusi', 'Komar', 'Ambar']
+        }
+        this.ccOption = this.assignOption.filter((d) => d !== response.data.data.assign)
+      } catch (error) {
+        console.log(error)
+      }
     }
+  },
+  mounted() {
+    this.getDetail(this.$route.params.id)
   },
   beforeMount() {
     const token = localStorage.getItem('token')
@@ -169,3 +218,8 @@ export default {
   }
 }
 </script>
+<!-- 
+<script>
+import { RouterLink, RouterView } from 'vue-router'
+import AuthenticatedLayout from '../components/AuthenticatedLayout.vue'
+</script> -->

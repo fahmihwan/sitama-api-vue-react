@@ -68,10 +68,10 @@ const Edit = () => {
         formData.append("assign", assign);
         formData.append("cc", cc);
         formData.append("_method", "PATCH");
+
         try {
             const response = await axios.post(`http://127.0.0.1:8000/api/list-crud/${id}`, formData, {
                 headers: {
-                    // "Content-type": "application/json",
                     "Content-type": "multipart/form-data",
                     Authorization: `Bearer ${token}`,
                 },
